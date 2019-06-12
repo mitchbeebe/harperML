@@ -1,0 +1,36 @@
+/* Main page with stikky-footer */
+html, body {
+  height: 100%;
+  background-color: #fff;
+  font-family: 'Source Sans Pro', sans-serif;
+  /* The html and body elements cannot have any padding or margin. */
+  border-top: 3px solid #27A822;
+}
+
+.webcam-button {
+  display: inline-block;
+  padding: 5px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px #999;
+}
+
+.webcam-button:hover {background-color: #3e8e41}
+
+.webcam-button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 4px #666;
+  transform: translateY(2px);
+}
+
+#screenshot-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

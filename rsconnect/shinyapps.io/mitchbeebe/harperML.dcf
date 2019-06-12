@@ -1,0 +1,12 @@
+name: harperML
+title: harperML
+username:
+account: mitchbeebe
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 975258
+bundleId: 2144260
+url: https://mitchbeebe.shinyapps.io/harperML/
+when: 1560220281.19153
+asMultiple: FALSE
+asStatic: FALSE
