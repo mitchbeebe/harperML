@@ -15,10 +15,12 @@ library(forcats)
 library(shinycssloaders)
 library(shinyjs)
 library(reticulate)
+library(tensorflow)
 
-# virtualenv_create(envname = "python_environment")
-# virtualenv_install("python_environment", packages = c('keras','numpy','scipy','pillow'))
-use_virtualenv("r-tensorflow", required = TRUE)
+# install_tensorflow()
+# virtualenv_create(envname = "test_environment")
+# virtualenv_install("r-reticulate", packages = c('keras','numpy','scipy','pillow'))
+use_virtualenv("r-reticulate", required = TRUE)
 
 load_data <- function() {
   model <- application_vgg16(weights = 'imagenet', include_top = TRUE)
@@ -108,7 +110,7 @@ server <- function(input, output, session) {
   
   output$img <- renderImage({
     list(src = path(), width = "100%", height = "100%")
-  })
+  }, deleteFile = FALSE)
   
   screenshot <- eventReactive(input$screenshot, {
     input$img_src %>% 
@@ -143,14 +145,14 @@ server <- function(input, output, session) {
   })
   
   output$upload_prob <- renderPlot({
-    path() %>% 
+    path() %>%
       image_load(., target_size = c(224,224)) %>%
-      image_to_array() %>% 
-      array_reshape(c(1, dim(.))) %>% 
-      imagenet_preprocess_input() %>% 
-      predict(model, .) %>% 
-      imagenet_decode_predictions(top = 5) %>% 
-      .[[1]] %>% 
+      image_to_array() %>%
+      array_reshape(c(1, dim(.))) %>%
+      imagenet_preprocess_input() %>%
+      predict(model, .) %>%
+      imagenet_decode_predictions(top = 5) %>%
+      .[[1]] %>%
       ggplot(aes(x = fct_reorder(
         tools::toTitleCase(
           str_replace_all(class_description, "_", " ")), score),
