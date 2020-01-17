@@ -17,10 +17,14 @@ library(shinyjs)
 library(reticulate)
 library(tensorflow)
 
-# install_tensorflow()
-# virtualenv_create(envname = "test_environment")
-# virtualenv_install("r-reticulate", packages = c('keras','numpy','scipy','pillow'))
-use_virtualenv("r-reticulate", required = TRUE)
+if ("r-tensorflow" %in% virtualenv_list()) {
+  use_virtualenv("r-tensorflow", required = TRUE)
+} else {
+  cat("r-tensorflow not found. Installing...")
+  virtualenv_create(envname = "r-tensorflow")
+  install_tensorflow(envname = "r-tensorflow")
+  virtualenv_install("r-tensorflow", packages = c('keras','numpy','scipy','pillow'))
+}
 
 load_data <- function() {
   model <- application_vgg16(weights = 'imagenet', include_top = TRUE)
@@ -36,7 +40,7 @@ ui <- fluidPage(
   div(
     id = "loading_page",
     h2("Loading VGG-16 Model..."),
-    withSpinner(textOutput("dummy"), color = "#27A822")
+    withSpinner(textOutput("dummy"), type = 5, color = "#27A822")
   ),
   
   hidden(
